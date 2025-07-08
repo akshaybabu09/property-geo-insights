@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # GIS related libraries
+    'django.contrib.gis',
+    'rest_framework_gis',
+    # other libraries
+    'rest_framework',
+    # django apps
+    'properties',
 ]
 
 MIDDLEWARE = [
@@ -73,9 +80,17 @@ WSGI_APPLICATION = 'property_geo_insights.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": "geospatial",
+        "USER": "talkinglands",
+        "PASSWORD": "talkinglands",
+        "HOST": "localhost",     # or service name in Docker
+        "PORT": "5432",
     }
 }
 
@@ -120,3 +135,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# REST Framework related settings
+REST_FRAMEWORK = {
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+    "ALLOWED_VERSIONS": ["v1"],
+    "DEFAULT_VERSION": "v1",
+    "PAGE_SIZE": 25,
+    "DEFAULT_SCHEMA_CLASS": "rest_framework_gis.schema.GeoFeatureAutoSchema",
+}
