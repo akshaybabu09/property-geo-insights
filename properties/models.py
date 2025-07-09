@@ -33,6 +33,14 @@ class Property(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        constraints = [
+                models.UniqueConstraint(
+                    fields=["location", "boundary"],
+                    name="unique_property_location_and_boundary"
+                )
+            ]
 
 
 class Amenity(models.Model):
@@ -56,6 +64,12 @@ class Amenity(models.Model):
     
     class Meta:
         verbose_name_plural = "Amenities"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["type", "location"],
+                name="unique_amenity_type_and_location"
+            )
+        ]
 
 
 class SurroundingRegion(models.Model):
@@ -76,4 +90,12 @@ class SurroundingRegion(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        constraints = [
+                models.UniqueConstraint(
+                    fields=["type", "area"],
+                    name="unique_amenity_type_and_area"
+                )
+            ]
 
