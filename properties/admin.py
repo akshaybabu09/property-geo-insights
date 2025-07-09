@@ -9,6 +9,7 @@ class PropertyAdmin(admin.ModelAdmin):
         "name",
         "address"
     )
+    readonly_fields = ["id", "created_at", "updated_at"]
 
 class AmenityAdmin(admin.ModelAdmin):
     list_display = (
@@ -17,6 +18,7 @@ class AmenityAdmin(admin.ModelAdmin):
         "property",
     )
     list_filter = ("type",)
+    readonly_fields = ["id", "created_at", "updated_at"]
 
 class SurroundingRegionAdmin(admin.ModelAdmin):
     list_display = (
@@ -25,6 +27,7 @@ class SurroundingRegionAdmin(admin.ModelAdmin):
         "property"
     )
     list_filter = ("type",)
+    readonly_fields = ["id", "created_at", "updated_at"]
 
 admin.site.register(Property, PropertyAdmin)
 admin.site.register(Amenity, AmenityAdmin)

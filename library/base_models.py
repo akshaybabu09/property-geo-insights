@@ -12,7 +12,6 @@ class TimeStampedModel(models.Model):
         - is_active: A boolean indicating whether the object is active or not
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
