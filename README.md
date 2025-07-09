@@ -101,6 +101,7 @@ DB_HOST=<DATABASE_HOST>
 ```
 
 ### 4. Run Migrations and create superuser
+
 ```
 python manage.py makemigrations
 python manage.py migrate
@@ -108,6 +109,7 @@ python manage.py createsuperuser
 ```
 
 ### 5. Run Server
+
 ```
 python manage.py runserver
 ```
