@@ -89,14 +89,25 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 3. Run Migrations and create superuser
+### 3. Add Environment Variables
+
+.env
+```
+SECRET_KEY=<SECRET_KEY>
+DB_NAME=<DATABASE_NAME>
+DB_USER=<DATABASE_USER>
+DB_PASSWORD=<DATABASE_PASSWORD>
+DB_HOST=<DATABASE_HOST>
+```
+
+### 4. Run Migrations and create superuser
 ```
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 4. Run Server
+### 5. Run Server
 ```
 python manage.py runserver
 ```
