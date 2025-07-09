@@ -15,12 +15,18 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from dotenv import load_dotenv
+import os
+
+# Brings all environment variables from .env into os.environ
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d4bpo)3zgmyrs+sm3c-y9ys-y04opu$2)h6vpta8@20duq+ms_'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,10 +92,10 @@ DATABASES = {
     # }
     'default': {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "geospatial",
-        "USER": "talkinglands",
-        "PASSWORD": "talkinglands",
-        "HOST": "localhost",     # or service name in Docker
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
         "PORT": "5432",
     }
 }
