@@ -1,7 +1,8 @@
 import uuid
 from django.db import models
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import Point, Polygon
+
+from library.base_models import TimeStampedModel
 
 
 # Create your models here.
@@ -19,7 +20,7 @@ class RegionType(models.TextChoices):
     TREATMENT_PLANT = "TREATMENT_PLANT", "Treatment Plant"
 
 
-class Property(models.Model):
+class Property(TimeStampedModel):
     """
         Model to store the properties with name, address, description, location and boundary
     """
@@ -35,6 +36,7 @@ class Property(models.Model):
         return self.name
     
     class Meta:
+        verbose_name_plural = "Properties"
         constraints = [
                 models.UniqueConstraint(
                     fields=["location", "boundary"],
@@ -43,7 +45,7 @@ class Property(models.Model):
             ]
 
 
-class Amenity(models.Model):
+class Amenity(TimeStampedModel):
     """
         Model to store the list of Schools, Hospitals, Malls, Grocery Stores / Super markets etc.,
         in the neighboudhood of the property.
@@ -72,7 +74,7 @@ class Amenity(models.Model):
         ]
 
 
-class SurroundingRegion(models.Model):
+class SurroundingRegion(TimeStampedModel):
     """
         Model to store the list of Parks, Lakes, Cemetary, Industrial Areas, Treatment Plants
          in the vicinity of the property.

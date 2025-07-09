@@ -1,69 +1,36 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
-from rest_framework.exceptions import NotFound
+from rest_framework.generics import RetrieveUpdateAPIView
 
 from .models import Property, Amenity, SurroundingRegion
 from .serializers import PropertySerializer, AmenitySerializer, SurroundingRegionSerializer
 
-# Create your views here.
+from library.base_views import BaseListCreateView, NestedListCreateView, BaseNestedRetrieveUpdateView
 
-class CreateListProperties(ListCreateAPIView):
+class CreateListProperties(BaseListCreateView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
-
 
 class RetrieveUpdateProperty(RetrieveUpdateAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
+# Amenity views
+class CreateListAmenities(NestedListCreateView):
+    parent_model = Property
+    queryset = Amenity.objects.all()
+    serializer_class = AmenitySerializer
+    filterset_fields = ["type"]
 
-class CreateListAmenities(ListCreateAPIView):
+class RetrieveUpdateAmenity(BaseNestedRetrieveUpdateView):
     queryset = Amenity.objects.all()
     serializer_class = AmenitySerializer
 
-    def get_queryset(self):
-        property_id = self.kwargs.get("property_id")
-        return Amenity.objects.filter(property_id=property_id)
-
-    def perform_create(self, serializer):
-        property_id = self.kwargs.get("property_id")
-        try:
-            property_obj = Property.objects.get(id=property_id)
-        except Property.DoesNotExist:
-            raise NotFound("Property not found.")
-
-        serializer.save(property=property_obj)
-
-
-class RetrieveUpdateAmenity(RetrieveUpdateAPIView):
-    serializer_class = AmenitySerializer
-    lookup_field = 'pk'
-
-    def get_queryset(self):
-        property_id = self.kwargs.get("property_id")
-        return Amenity.objects.filter(property_id=property_id)
-
-
-class CreateListSurroundingRegion(ListCreateAPIView):
+# Surrounding Region views
+class CreateListSurroundingRegion(NestedListCreateView):
+    parent_model = Property
+    queryset = SurroundingRegion.objects.all()
     serializer_class = SurroundingRegionSerializer
+    filterset_fields = ["type"]
 
-    def get_queryset(self):
-        property_id = self.kwargs.get("property_id")
-        return SurroundingRegion.objects.filter(property_id=property_id)
-
-    def perform_create(self, serializer):
-        property_id = self.kwargs.get("property_id")
-        try:
-            property_obj = Property.objects.get(id=property_id)
-        except Property.DoesNotExist:
-            raise NotFound("Property not found.")
-
-        serializer.save(property=property_obj)
-
-
-class RetrieveUpdateSurroundingRegion(RetrieveUpdateAPIView):
+class RetrieveUpdateSurroundingRegion(BaseNestedRetrieveUpdateView):
+    queryset = SurroundingRegion.objects.all()
     serializer_class = SurroundingRegionSerializer
-    lookup_field = "pk"
-    
-    def get_queryset(self):
-        property_id = self.kwargs.get("property_id")
-        return SurroundingRegion.objects.filter(property_id=property_id)
